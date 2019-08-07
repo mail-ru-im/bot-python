@@ -7,6 +7,7 @@ Pure Python interface for Bot API.
 # Table of contents
 - [Introduction](#introduction)
 - [Getting started](#getting-started)
+- [API description](#api-description)
 
 # Introduction
 
@@ -25,3 +26,9 @@ git clone https://github.com/mail-ru-im/bot-python.git
 cd bot-python
 python setup.py install
 ```
+
+# API description
+<ul>
+    <li><a href="https://icq.com/botapi/">icq.com/botapi/</a></li>
+    <li><a href="https://agent.mail.ru/botapi/">agent.mail.ru/botapi/</a></li>
+</uk>
