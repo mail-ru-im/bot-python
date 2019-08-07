@@ -1,0 +1,7 @@
+cached-property == 1.4.2
+enum34 == 1.1.6; python_version < "3.4"
+expiringdict == 1.1.4
+monotonic == 1.5
+python-baseconv == 1.2.1
+requests == 2.20.0
+six == 1.11.0
