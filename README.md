@@ -7,6 +7,7 @@ Pure Python interface for Bot API.
 # Table of contents
 - [Introduction](#introduction)
 - [Getting started](#getting-started)
+- [Installing](#installing)
 - [API description](#api-description)
 
 # Introduction
@@ -19,6 +20,11 @@ Create your own bot by sending the /newbot command to <a href="https://icq.com/p
 
 Note a bot can only reply after the user has added it to his contact list, or if the user was the first to start a dialogue.
 
+# Installing
+Install using pip:
+```bash
+pip install --upgrade mailru-im-bot
+```
 
 Install from sources:
 ```bash
