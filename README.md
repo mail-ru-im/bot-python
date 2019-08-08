@@ -31,4 +31,4 @@ python setup.py install
 <ul>
     <li><a href="https://icq.com/botapi/">icq.com/botapi/</a></li>
     <li><a href="https://agent.mail.ru/botapi/">agent.mail.ru/botapi/</a></li>
-</uk>
+</ul>
