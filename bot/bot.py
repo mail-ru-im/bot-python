@@ -271,6 +271,28 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
+    def pin_message(self, chat_id, msg_id):
+        return self.http_session.get(
+            url="{}/chats/pinMessage".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "msgId": msg_id
+            },
+            timeout=self.timeout_s
+        )
+
+    def unpin_message(self, chat_id, msg_id):
+        return self.http_session.get(
+            url="{}/chats/unpinMessage".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "msgId": msg_id
+            },
+            timeout=self.timeout_s
+        )
+
 
 class LoggingHTTPAdapter(HTTPAdapter):
     _LOG_MIME_TYPE_REGEXP = re.compile(

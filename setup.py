@@ -26,7 +26,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mail-ru-im/bot-python",
     author="ICQ LLC (Mail.Ru Group)",
-    author_email="support@bot.com",
+    author_email="support@icq.com",
     license="MIT",
     classifiers=[
         "Intended Audience :: Developers",

@@ -160,6 +160,18 @@ def message_cb(bot, event):
     bot.send_text(chat_id=event.data['chat']['chatId'], text="Message was received")
 
 
+def pin_cb(bot, event):
+    # Bot should by admin in chat for call this method
+    command, command_body = event.data["text"].partition(" ")[::2]
+    bot.pin_message(chat_id=event.data['chat']['chatId'], msg_id=command_body)
+
+
+def unpin_cb(bot, event):
+    # Bot should by admin in chat for call this method
+    command, command_body = event.data["text"].partition(" ")[::2]
+    bot.unpin_message(chat_id=event.data['chat']['chatId'], msg_id=command_body)
+
+
 def main():
     # Creating a new bot instance.
     bot = Bot(token=TOKEN, name=NAME, version=VERSION)
@@ -241,6 +253,18 @@ def main():
     # Handlers for forward and reply getting
     bot.dispatcher.add_handler(MessageHandler(filters=Filter.forward, callback=forward_cb))
     bot.dispatcher.add_handler(MessageHandler(filters=Filter.reply, callback=reply_cb))
+
+    # Send command like this:
+    # /pin 6752793278973351456
+    # 6752793278973351456 - msgId
+    # Handler for pin command
+    bot.dispatcher.add_handler(CommandHandler(command="pin", callback=pin_cb))
+
+    # Send command like this:
+    # /pin 6752793278973351456
+    # 6752793278973351456 - msgId
+    # Handler for unpin command
+    bot.dispatcher.add_handler(CommandHandler(command="unpin", callback=unpin_cb))
 
     # Starting a polling thread watching for new events from server. This is a non-blocking call
     # ---------------------------------------------------------------------------------------- #
