@@ -1,6 +1,7 @@
 import io
 import logging.config
 from time import sleep
+from gtts import gTTS
 
 from bot.bot import Bot
 from bot.filter import Filter
@@ -261,7 +262,7 @@ def main():
     bot.dispatcher.add_handler(CommandHandler(command="pin", callback=pin_cb))
 
     # Send command like this:
-    # /pin 6752793278973351456
+    # /unpin 6752793278973351456
     # 6752793278973351456 - msgId
     # Handler for unpin command
     bot.dispatcher.add_handler(CommandHandler(command="unpin", callback=unpin_cb))
@@ -296,10 +297,7 @@ def main():
     # Send file by file_id
     bot.send_file(chat_id=OWNER, file_id=file_id, caption="file_id file caption")
 
-    # Send voice by file_id
-    bot.send_voice(chat_id=OWNER, file_id="I00031wZPkr0pyQVSB7s965d49a1ca1bf")
-
-    # Reply file by file_id
+    # Send file by file_id as reply to message
     bot.send_file(chat_id=OWNER, file_id=file_id, caption="file_id file caption", reply_msg_id=msg_id)
 
     # Forward file by file_id
@@ -311,17 +309,30 @@ def main():
         forward_chat_id=OWNER
     )
 
+    # Send voice file
+    with io.BytesIO() as file:
+        gTTS('Hello everybody!').write_to_fp(file)
+        file.name = "hello_voice.mp3"
+        file.seek(0)
+        response = bot.send_voice(chat_id=OWNER, file=file.read())
+        hello_voice_file_id = response.json()['fileId']
+
+    # Send voice by file_id
+    bot.send_voice(chat_id=OWNER, file_id=hello_voice_file_id)
+
     # Edit text
+    msg_id = bot.send_text(chat_id=OWNER, text="Message to be edited").json()['msgId']
     bot.edit_text(chat_id=OWNER, msg_id=msg_id, text="edited text")
 
-    # Delete text
+    # Delete message
+    msg_id = bot.send_text(chat_id=OWNER, text="Message to be deleted").json()['msgId']
     bot.delete_messages(chat_id=OWNER, msg_id=msg_id)
 
     # Send typing action
-    bot.send_actions(chat_id=OWNER, actions="typing")
+    bot.send_actions(chat_id=OWNER, actions=["typing"])
     sleep(1)
     # Stop typing
-    bot.send_actions(chat_id=OWNER, actions="")
+    bot.send_actions(chat_id=OWNER, actions=[])
 
     # Get info about chat
     bot.get_chat_info(chat_id=OWNER)

@@ -236,7 +236,7 @@ class Bot(object):
             params={
                 "token": self.token,
                 "chatId": chat_id,
-                "actions": actions
+                "actions": actions if len(actions) else ''
             },
             timeout=self.timeout_s
         )
@@ -257,6 +257,39 @@ class Bot(object):
             params={
                 "token": self.token,
                 "chatId": chat_id
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_title(self, chat_id, title):
+        return self.http_session.get(
+            url="{}/chats/setTitle".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "title": title
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_about(self, chat_id, about):
+        return self.http_session.get(
+            url="{}/chats/setAbout".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "about": about
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_rules(self, chat_id, rules):
+        return self.http_session.get(
+            url="{}/chats/setRules".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "rules": rules
             },
             timeout=self.timeout_s
         )
