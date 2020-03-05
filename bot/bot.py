@@ -261,6 +261,106 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
+    def get_chat_members(self, chat_id, cursor=None):
+        return self.http_session.get(
+            url="{}/chats/getMembers".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "cursor": cursor
+            },
+            timeout=self.timeout_s
+        )
+
+    def get_chat_blocked_users(self, chat_id):
+        return self.http_session.get(
+            url="{}/chats/getBlockedUsers".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id
+            },
+            timeout=self.timeout_s
+        )
+
+    def get_chat_pending_users(self, chat_id):
+        return self.http_session.get(
+            url="{}/chats/getPendingUsers".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id
+            },
+            timeout=self.timeout_s
+        )
+
+    def chat_block_user(self, chat_id, user_id, del_last_messages=False):
+        return self.http_session.get(
+            url="{}/chats/blockUser".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "userId": user_id,
+                "delLastMessages": str(del_last_messages).lower()
+            },
+            timeout=self.timeout_s
+        )
+
+    def chat_unblock_user(self, chat_id, user_id):
+        return self.http_session.get(
+            url="{}/chats/unblockUser".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "userId": user_id
+            },
+            timeout=self.timeout_s
+        )
+
+    def chat_resolve_pending(self, chat_id, approve=True, user_id="", everyone=False):
+        return self.http_session.get(
+            url="{}/chats/resolvePending".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "approve": str(approve).lower(),
+                "userId": user_id,
+                "everyone": str(everyone).lower()
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_title(self, chat_id, title):
+        return self.http_session.get(
+            url="{}/chats/setTitle".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "title": title
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_about(self, chat_id, about):
+        return self.http_session.get(
+            url="{}/chats/setAbout".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "about": about
+            },
+            timeout=self.timeout_s
+        )
+
+    def set_chat_rules(self, chat_id, rules):
+        return self.http_session.get(
+            url="{}/chats/setRules".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "rules": rules
+            },
+            timeout=self.timeout_s
+        )
+
     def get_file_info(self, file_id):
         return self.http_session.get(
             url="{}/files/getInfo".format(self.api_base_url),
