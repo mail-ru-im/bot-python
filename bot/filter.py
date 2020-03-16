@@ -136,9 +136,9 @@ class AudioFilter(FileFilter):
         )
 
 
-class StickerFilter(FileFilter):
+class StickerFilter(MessageFilter):
     def filter(self, event):
-        return super(FileFilter, self).filter(event) and 'parts' in event.data and any(
+        return super(StickerFilter, self).filter(event) and 'parts' in event.data and any(
            p['type'] == Parts.STICKER.value for p in event.data['parts']
         )
 
