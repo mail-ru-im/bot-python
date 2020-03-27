@@ -16,6 +16,8 @@ NAME = ""
 VERSION = "0.0.0"
 TOKEN = "XXX.XXXXXXXXXX.XXXXXXXXXX:XXXXXXXXX"
 OWNER = "XXXXXXXXX"
+TEST_CHAT = "XXXXX"
+TEST_USER = "XXXXX"
 
 
 def start_cb(bot, event):
@@ -294,6 +296,9 @@ def main():
         response = bot.send_file(chat_id=OWNER, file=file.read(), caption="binary file caption")
         file_id = response.json()['fileId']
 
+    # Get file info
+    bot.get_file_info(file_id=file_id)
+
     # Send file by file_id
     bot.send_file(chat_id=OWNER, file_id=file_id, caption="file_id file caption")
 
@@ -335,10 +340,31 @@ def main():
     bot.send_actions(chat_id=OWNER, actions=[])
 
     # Get info about chat
-    bot.get_chat_info(chat_id=OWNER)
+    bot.get_chat_info(chat_id=TEST_CHAT)
 
-    # Get file info
-    bot.get_file_info(file_id=file_id)
+    # Get chat admins
+    bot.get_chat_admins(chat_id=TEST_CHAT)
+    # Get chat members
+    bot.get_chat_members(chat_id=TEST_CHAT)
+    # Get chat blocked users
+    bot.get_chat_blocked_users(chat_id=TEST_CHAT)
+    # Get chat pending users
+    bot.get_chat_pending_users(chat_id=TEST_CHAT)
+
+    # Block user in chat
+    bot.chat_block_user(chat_id=TEST_CHAT, user_id=TEST_USER, del_last_messages=True)
+    # Unlock user in chat
+    bot.chat_unblock_user(chat_id=TEST_CHAT, user_id=TEST_USER)
+
+    # Chat resolve pending user or everyone
+    bot.chat_resolve_pending(chat_id=TEST_CHAT, approve=True, user_id=TEST_USER, everyone=False)
+
+    # Set chat title
+    bot.set_chat_title(chat_id=TEST_CHAT, title="TEST TITLE")
+    # Set chat about
+    bot.set_chat_about(chat_id=TEST_CHAT, about="TEST ABOUT")
+    # Set chat title
+    bot.set_chat_rules(chat_id=TEST_CHAT, rules="TEST RULES")
 
     bot.idle()
 
