@@ -1,4 +1,5 @@
 import io
+import json
 import logging.config
 from time import sleep
 from gtts import gTTS
@@ -7,7 +8,7 @@ from bot.bot import Bot
 from bot.filter import Filter
 from bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandler, FeedbackCommandHandler, \
     CommandHandler, NewChatMembersHandler, LeftChatMembersHandler, PinnedMessageHandler, UnPinnedMessageHandler, \
-    EditedMessageHandler, DeletedMessageHandler, StartCommandHandler
+    EditedMessageHandler, DeletedMessageHandler, StartCommandHandler, BotButtonCommandHandler
 
 logging.config.fileConfig("logging.ini")
 log = logging.getLogger(__name__)
@@ -173,6 +174,22 @@ def unpin_cb(bot, event):
     # Bot should by admin in chat for call this method
     command, command_body = event.data["text"].partition(" ")[::2]
     bot.unpin_message(chat_id=event.data['chat']['chatId'], msg_id=command_body)
+
+
+def buttons_answer_cb(bot, event):
+    if event.data['callbackData'] == "call_back_id_2":
+        bot.answer_callback_query(
+            query_id=event.data['queryId'],
+            text="Hey! It's a working button 2.",
+            show_alert=True
+        )
+
+    elif event.data['callbackData'] == "call_back_id_3":
+        bot.answer_callback_query(
+            query_id=event.data['queryId'],
+            text="Hey! It's a working button 3.",
+            show_alert=False
+        )
 
 
 def main():
@@ -365,6 +382,18 @@ def main():
     bot.set_chat_about(chat_id=TEST_CHAT, about="TEST ABOUT")
     # Set chat title
     bot.set_chat_rules(chat_id=TEST_CHAT, rules="TEST RULES")
+
+    # Send bot buttons
+    bot.send_text(chat_id=OWNER,
+                  text="Hello with buttons.",
+                  inline_keyboard_markup="[{}]".format(json.dumps([
+                      {"text": "Action 1", "url": "http://mail.ru"},
+                      {"text": "Action 2", "callbackData": "call_back_id_2"},
+                      {"text": "Action 3", "callbackData": "call_back_id_3"}
+                  ])))
+
+    # Handler for bot buttons reply.
+    bot.dispatcher.add_handler(BotButtonCommandHandler(callback=buttons_answer_cb))
 
     bot.idle()
 

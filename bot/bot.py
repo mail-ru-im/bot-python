@@ -151,7 +151,8 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
-    def send_text(self, chat_id, text, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None):
+    def send_text(self, chat_id, text, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
+                  inline_keyboard_markup=None):
         return self.http_session.get(
             url="{}/messages/sendText".format(self.api_base_url),
             params={
@@ -160,13 +161,14 @@ class Bot(object):
                 "text": text,
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
-                "forwardMsgId": forward_msg_id
+                "forwardMsgId": forward_msg_id,
+                "inlineKeyboardMarkup": inline_keyboard_markup
             },
             timeout=self.timeout_s
         )
 
     def send_file(self, chat_id, file_id=None, file=None, caption=None, reply_msg_id=None, forward_chat_id=None,
-                  forward_msg_id=None):
+                  forward_msg_id=None, inline_keyboard_markup=None):
         request = Request(
             method="GET",
             url="{}/messages/sendFile".format(self.api_base_url),
@@ -177,7 +179,8 @@ class Bot(object):
                 "caption": caption,
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
-                "forwardMsgId": forward_msg_id
+                "forwardMsgId": forward_msg_id,
+                "inlineKeyboardMarkup": inline_keyboard_markup
             }
         )
         if file:
@@ -187,7 +190,7 @@ class Bot(object):
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
     def send_voice(self, chat_id, file_id=None, file=None, reply_msg_id=None, forward_chat_id=None,
-                   forward_msg_id=None):
+                   forward_msg_id=None, inline_keyboard_markup=None):
         request = Request(
             method="GET",
             url="{}/messages/sendVoice".format(self.api_base_url),
@@ -197,7 +200,8 @@ class Bot(object):
                 "fileId": file_id,
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
-                "forwardMsgId": forward_msg_id
+                "forwardMsgId": forward_msg_id,
+                "inlineKeyboardMarkup": inline_keyboard_markup
             }
         )
 
@@ -207,14 +211,15 @@ class Bot(object):
 
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
-    def edit_text(self, chat_id, msg_id, text):
+    def edit_text(self, chat_id, msg_id, text, inline_keyboard_markup=None):
         return self.http_session.get(
             url="{}/messages/editText".format(self.api_base_url),
             params={
                 "token": self.token,
                 "chatId": chat_id,
                 "msgId": msg_id,
-                "text": text
+                "text": text,
+                "inlineKeyboardMarkup": inline_keyboard_markup
             },
             timeout=self.timeout_s
         )
@@ -228,6 +233,17 @@ class Bot(object):
                 "msgId": msg_id
             },
             timeout=self.timeout_s
+        )
+
+    def answer_callback_query(self, query_id, text, show_alert):
+        return self.http_session.get(
+            url="{}/messages/answerCallbackQuery".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "queryId": query_id,
+                "text": text,
+                "showAlert": 'true' if show_alert else 'false'
+            }
         )
 
     def send_actions(self, chat_id, actions):

@@ -159,3 +159,10 @@ class UnknownCommandHandler(CommandHandler):
         super(UnknownCommandHandler, self).handle(event=event, dispatcher=dispatcher)
         raise StopDispatching
 
+
+class BotButtonCommandHandler(HandlerBase):
+    def check(self, event, dispatcher):
+        return (
+            super(BotButtonCommandHandler, self).check(event=event, dispatcher=dispatcher) and
+            event.type is EventType.CALLBACK_QUERY
+        )
