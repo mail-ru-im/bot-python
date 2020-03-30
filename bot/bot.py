@@ -235,6 +235,17 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
+    def answer_callback_query(self, query_id, text, show_alert):
+        return self.http_session.get(
+            url="{}/messages/answerCallbackQuery".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "queryId": query_id,
+                "text": text,
+                "showAlert": 'true' if show_alert else 'false'
+            }
+        )
+
     def send_actions(self, chat_id, actions):
         return self.http_session.get(
             url="{}/chats/sendActions".format(self.api_base_url),

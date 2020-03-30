@@ -11,6 +11,7 @@ class EventType(Enum):
     NEW_CHAT_MEMBERS = "newChatMembers"
     LEFT_CHAT_MEMBERS = "leftChatMembers"
     CHANGED_CHAT_INFO = "changedChatInfo"
+    CALLBACK_QUERY = "callbackQuery"
 
 
 class Event(object):
