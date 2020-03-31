@@ -19,6 +19,7 @@ TOKEN = "XXX.XXXXXXXXXX.XXXXXXXXXX:XXXXXXXXX"
 OWNER = "XXXXXXXXX"
 TEST_CHAT = "XXXXX"
 TEST_USER = "XXXXX"
+API_URL = "https://api.icq.net/bot/v1"
 
 
 def start_cb(bot, event):
@@ -194,7 +195,7 @@ def buttons_answer_cb(bot, event):
 
 def main():
     # Creating a new bot instance.
-    bot = Bot(token=TOKEN, name=NAME, version=VERSION)
+    bot = Bot(token=TOKEN, name=NAME, version=VERSION, api_url_base=API_URL)
 
     # Registering handlers #
     # -------------------- #

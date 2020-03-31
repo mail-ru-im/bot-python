@@ -16,9 +16,13 @@ This library provides complete Bot API 1.0 interface and compatible with Python 
 
 # Getting started
 
-Create your own bot by sending the /newbot command to <a href="https://icq.com/people/70001">Metabot</a> and follow the instructions.
+* Create your own bot by sending the /newbot command to <a href="https://icq.com/people/70001">Metabot</a> and follow the instructions.
+    >Note: a bot can only reply after the user has added it to his contact list, or if the user was the first to start a dialogue.
+* You can configure the domain that hosts your ICQ server. When instantiating the Bot class, add the address of your domain.
+    > Example: Bot(token=TOKEN, name=NAME, version=VERSION, api_url_base="https://api.icq.net/bot/v1"), by default we use the domain: https://api.icq.net/bot/v1
 
-Note a bot can only reply after the user has added it to his contact list, or if the user was the first to start a dialogue.
+
+> An example of how to use the framework can be seen in example/test_bot.py 
 
 # Installing
 Install using pip:
