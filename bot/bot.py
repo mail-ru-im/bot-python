@@ -235,14 +235,15 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
-    def answer_callback_query(self, query_id, text, show_alert):
+    def answer_callback_query(self, query_id, text, show_alert=False, url=None):
         return self.http_session.get(
             url="{}/messages/answerCallbackQuery".format(self.api_base_url),
             params={
                 "token": self.token,
                 "queryId": query_id,
                 "text": text,
-                "showAlert": 'true' if show_alert else 'false'
+                "showAlert": 'true' if show_alert else 'false',
+                "url": url
             }
         )
 
