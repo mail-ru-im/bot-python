@@ -22,7 +22,8 @@ class Event(object):
         self.data = data
 
         if type_ == EventType.NEW_MESSAGE:
-            self.text = data['text']
+            if 'text' in data:
+                self.text = data['text']
             self.from_chat = data['chat']['chatId']
             self.message_author = data['from']
         
