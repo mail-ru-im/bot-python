@@ -7,7 +7,7 @@ bot = Bot(token=TOKEN)
 
 
 def message_cb(bot, event):
-    bot.send_text(chat_id=event.from_chat, text=event.text)
+    bot.send_text(chat_id=event.data['chat']['chatId'] text=event.data['text'])
 
 
 bot.dispatcher.add_handler(MessageHandler(callback=message_cb))
