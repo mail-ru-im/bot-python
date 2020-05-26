@@ -181,6 +181,26 @@ class URLFilter(RegexpFilter):
         return super(URLFilter, self).filter(event) and URLFilter.__FILTER(event)
 
 
+class CallbackDataFilter(FilterBase):
+    def __init__(self, callback_data):
+        super(CallbackDataFilter, self).__init__()
+
+        self.callback_data = callback_data
+
+    def filter(self, event):
+        return "callbackData" in event.data and event.data['callbackData'] == self.callback_data
+
+
+class CallbackDataRegexpFilter(FilterBase):
+    def __init__(self, pattern):
+        super(CallbackDataRegexpFilter, self).__init__()
+
+        self.pattern = re.compile(pattern)
+
+    def filter(self, event):
+        return "callbackData" in event.data and self.pattern.search(event.data['callbackData'])
+
+
 class Filter(object):
     message = MessageFilter()
     command = CommandFilter()
@@ -198,4 +218,6 @@ class Filter(object):
     forward = ForwardFilter()
     reply = ReplyFilter()
     sender = SenderFilter
+    callback_data = CallbackDataFilter
+    callback_data_regexp = CallbackDataRegexpFilter
 
