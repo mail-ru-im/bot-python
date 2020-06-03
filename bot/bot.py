@@ -168,7 +168,7 @@ class Bot(object):
         )
 
     def send_file(self, chat_id, file_id=None, file=None, caption=None, reply_msg_id=None, forward_chat_id=None,
-                  forward_msg_id=None, inline_keyboard_markup=None):
+                  forward_msg_id=None, inline_keyboard_markup=None, file_name=None):
         request = Request(
             method="GET",
             url="{}/messages/sendFile".format(self.api_base_url),
@@ -185,8 +185,11 @@ class Bot(object):
         )
         if file:
             request.method = "POST"
-            request.files = {"file": file}
-
+            if file_name:
+				request.files = {"file": (file_name, file)}
+			else:
+				request.files = {"file": file}
+                
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
     def send_voice(self, chat_id, file_id=None, file=None, reply_msg_id=None, forward_chat_id=None,
