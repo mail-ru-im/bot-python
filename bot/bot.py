@@ -5,6 +5,8 @@ import re
 from signal import signal, SIGINT, SIGTERM, SIGABRT
 from threading import Thread, Lock
 from time import sleep
+import types
+import json
 
 import requests
 from cached_property import cached_property
@@ -18,6 +20,7 @@ from bot.event import Event, EventType
 from bot.filter import Filter
 from bot.handler import MessageHandler
 from bot.util import signal_name_by_code
+from bot.myteam import add_chat_members, create_chat
 
 try:
     from urllib import parse as urlparse
@@ -27,7 +30,7 @@ except ImportError:
 
 
 class Bot(object):
-    def __init__(self, token, api_url_base=None, name=None, version=None, timeout_s=20, poll_time_s=60):
+    def __init__(self, token, api_url_base=None, name=None, version=None, timeout_s=20, poll_time_s=60, is_myteam=False):
         super(Bot, self).__init__()
 
         self.log = logging.getLogger(__name__)
@@ -39,6 +42,7 @@ class Bot(object):
         self.timeout_s = timeout_s
         self.poll_time_s = poll_time_s
         self.last_event_id = 0
+        self.is_myteam = is_myteam
 
         self.dispatcher = Dispatcher(self)
         self.running = False
@@ -50,6 +54,10 @@ class Bot(object):
 
         self.__sent_im_cache = ExpiringDict(max_len=2 ** 10, max_age_seconds=60)
         self.dispatcher.add_handler(SkipDuplicateMessageHandler(self.__sent_im_cache))
+
+        if self.is_myteam:
+            self.add_chat_members = types.MethodType( add_chat_members, self )
+            self.create_chat = types.MethodType( create_chat, self )
 
     @property
     def uin(self):
@@ -408,6 +416,16 @@ class Bot(object):
                 "msgId": msg_id
             },
             timeout=self.timeout_s
+        )
+
+    def delete_chat_members(self, chat_id, members):
+        return self.http_session.get(
+            url="{}/chats/members/delete".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "members": json.dumps([{"sn": m} for m in members])
+            }
         )
 
 
