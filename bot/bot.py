@@ -131,7 +131,7 @@ class Bot(object):
             self.log.warning("Force exiting.")
             # It's fine here, this is standard way to force exit.
             # noinspection PyProtectedMember
-            exit(1)
+            os._exit(1)
 
     def idle(self):
         for sig in (SIGINT, SIGTERM, SIGABRT):
