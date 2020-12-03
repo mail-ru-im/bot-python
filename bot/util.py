@@ -3,7 +3,7 @@ from collections import namedtuple
 
 from baseconv import BaseConverter
 
-from bot.constant import ImageType, VideoType, AudioType
+from .constant import ImageType, VideoType, AudioType
 
 BASE62_CONVERTER = BaseConverter("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 

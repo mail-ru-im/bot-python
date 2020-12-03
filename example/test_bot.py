@@ -2,13 +2,15 @@ import io
 import json
 import logging.config
 from time import sleep
-from gtts import gTTS
-
+import sys
 from bot.bot import Bot
 from bot.filter import Filter
 from bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandler, FeedbackCommandHandler, \
     CommandHandler, NewChatMembersHandler, LeftChatMembersHandler, PinnedMessageHandler, UnPinnedMessageHandler, \
     EditedMessageHandler, DeletedMessageHandler, StartCommandHandler, BotButtonCommandHandler
+
+if sys.version_info[0] == 3:
+    from gtts import gTTS
 
 logging.config.fileConfig("logging.ini")
 log = logging.getLogger(__name__)
@@ -308,7 +310,7 @@ def main():
 
     # Send binary file
     with io.StringIO() as file:
-        file.write('x'*100)
+        file.write(u'x'*100)
         file.name = "file.txt"
         file.seek(0)
         response = bot.send_file(chat_id=OWNER, file=file.read(), caption="binary file caption")
@@ -333,15 +335,16 @@ def main():
     )
 
     # Send voice file
-    with io.BytesIO() as file:
-        gTTS('Hello everybody!').write_to_fp(file)
-        file.name = "hello_voice.mp3"
-        file.seek(0)
-        response = bot.send_voice(chat_id=OWNER, file=file.read())
-        hello_voice_file_id = response.json()['fileId']
+    if sys.version_info[0] == 3:
+        with io.BytesIO() as file:
+            gTTS('Hello everybody!').write_to_fp(file)
+            file.name = "hello_voice.mp3"
+            file.seek(0)
+            response = bot.send_voice(chat_id=OWNER, file=file.read())
+            hello_voice_file_id = response.json()['fileId']
 
-    # Send voice by file_id
-    bot.send_voice(chat_id=OWNER, file_id=hello_voice_file_id)
+        # Send voice by file_id
+        bot.send_voice(chat_id=OWNER, file_id=hello_voice_file_id)
 
     # Edit text
     msg_id = bot.send_text(chat_id=OWNER, text="Message to be edited").json()['msgId']
