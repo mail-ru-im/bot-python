@@ -2,9 +2,9 @@ from abc import ABCMeta
 
 import six
 
-from bot.dispatcher import StopDispatching
-from bot.event import EventType
-from bot.filter import Filter
+from .dispatcher import StopDispatching
+from .event import EventType
+from .filter import Filter
 
 
 @six.add_metaclass(ABCMeta)

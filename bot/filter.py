@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 
 import six
 
-from bot.constant import Parts, PayLoadFileType
+from .constant import Parts, PayLoadFileType
 
 
 @six.add_metaclass(ABCMeta)

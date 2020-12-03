@@ -14,13 +14,13 @@ from expiringdict import ExpiringDict
 from requests import Request
 from requests.adapters import HTTPAdapter
 
-import bot
-from bot.dispatcher import Dispatcher, StopDispatching
-from bot.event import Event, EventType
-from bot.filter import Filter
-from bot.handler import MessageHandler
-from bot.util import signal_name_by_code
-from bot.myteam import add_chat_members, create_chat
+from . import __version__ as version
+from .dispatcher import Dispatcher, StopDispatching
+from .event import Event, EventType
+from .filter import Filter
+from .handler import MessageHandler
+from .util import signal_name_by_code
+from .myteam import add_chat_members, create_chat
 
 try:
     from urllib import parse as urlparse
@@ -69,7 +69,7 @@ class Bot(object):
             name=self.name,
             version=self.version,
             uin="" if self.uin is None else self.uin,
-            library_version=bot.__version__
+            library_version=version
         )
 
     @cached_property
@@ -87,10 +87,19 @@ class Bot(object):
             # noinspection PyBroadException
             try:
                 response = self.events_get()
+
+                if response:
+                    if "description" in response.json() and response.json()["description"] == 'Invalid token':
+                        raise InvalidToken(response.json())
+
                 for event in response.json()["events"]:
                     self.dispatcher.dispatch(Event(type_=EventType(event["type"]), data=event["payload"]))
-            except Exception:
-                self.log.exception("Exception while polling!")
+            except InvalidToken as e:
+                self.log.exception("InvalidToken: {e}".format(e=e))
+                sleep(5)
+            except Exception as e:
+                self.log.exception("Exception while polling: {e}".format(e=e))
+
 
     def start_polling(self):
         with self.__lock:
@@ -122,7 +131,7 @@ class Bot(object):
             self.log.warning("Force exiting.")
             # It's fine here, this is standard way to force exit.
             # noinspection PyProtectedMember
-            os._exit(1)
+            exit(1)
 
     def idle(self):
         for sig in (SIGINT, SIGTERM, SIGABRT):
@@ -145,7 +154,7 @@ class Bot(object):
             timeout=poll_time_s + self.timeout_s
         )
 
-        if response.json()['events']:
+        if 'events' in response.json() and response.json()['events']:
             self.last_event_id = max(response.json()['events'], key=lambda e: e['eventId'])['eventId']
 
         return response
@@ -503,3 +512,8 @@ class SkipDuplicateMessageHandler(MessageHandler):
         if super(SkipDuplicateMessageHandler, self).check(event=event, dispatcher=dispatcher):
             if self.cache.get(event.data["msgId"]) == event.data["text"]:
                 raise StopDispatching
+
+
+class InvalidToken(Exception):
+    pass
+
