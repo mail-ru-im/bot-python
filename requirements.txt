@@ -6,5 +6,5 @@ python-baseconv == 1.2.2
 requests == 2.25.0
 six == 1.15.0
 gTTS == 2.2.1
-urllib3 == 1.26.2
+urllib3 == 1.26.3
 click == 7.1.2
