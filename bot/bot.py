@@ -30,7 +30,8 @@ except ImportError:
 
 
 class Bot(object):
-    def __init__(self, token, api_url_base=None, name=None, version=None, timeout_s=20, poll_time_s=60, is_myteam=False):
+    def __init__(self, token: str, api_url_base: str = None, name: str = None, version: str = None,
+                 timeout_s: int = 20, poll_time_s: int = 60, is_myteam: bool = False):
         super(Bot, self).__init__()
 
         self.log = logging.getLogger(__name__)
@@ -56,8 +57,8 @@ class Bot(object):
         self.dispatcher.add_handler(SkipDuplicateMessageHandler(self.__sent_im_cache))
 
         if self.is_myteam:
-            self.add_chat_members = types.MethodType( add_chat_members, self )
-            self.create_chat = types.MethodType( create_chat, self )
+            self.add_chat_members = types.MethodType(add_chat_members, self)
+            self.create_chat = types.MethodType(create_chat, self)
 
     @property
     def uin(self):
@@ -99,7 +100,6 @@ class Bot(object):
                 sleep(5)
             except Exception as e:
                 self.log.exception("Exception while polling: {e}".format(e=e))
-
 
     def start_polling(self):
         with self.__lock:
@@ -179,7 +179,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": inline_keyboard_markup
+                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
             },
             timeout=self.timeout_s
         )
@@ -197,7 +197,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": inline_keyboard_markup
+                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
             }
         )
         if file:
@@ -218,7 +218,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": inline_keyboard_markup
+                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
             }
         )
 
@@ -236,7 +236,7 @@ class Bot(object):
                 "chatId": chat_id,
                 "msgId": msg_id,
                 "text": text,
-                "inlineKeyboardMarkup": inline_keyboard_markup
+                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
             },
             timeout=self.timeout_s
         )
@@ -516,4 +516,3 @@ class SkipDuplicateMessageHandler(MessageHandler):
 
 class InvalidToken(Exception):
     pass
-
