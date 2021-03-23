@@ -21,12 +21,23 @@ from .filter import Filter
 from .handler import MessageHandler
 from .util import signal_name_by_code
 from .myteam import add_chat_members, create_chat
+from .types import InlineKeyboardMarkup
 
 try:
     from urllib import parse as urlparse
 except ImportError:
     # noinspection PyUnresolvedReferences
     import urlparse
+
+
+def keyboard_to_json(keyboard_markup):
+    if isinstance(keyboard_markup, InlineKeyboardMarkup):
+        return keyboard_markup.to_json()
+    elif isinstance(keyboard_markup, list):
+        return json.dumps(keyboard_markup)
+    else:
+        return keyboard_markup
+
 
 
 class Bot(object):
@@ -121,7 +132,7 @@ class Bot(object):
                 self.__polling_thread.join()
 
     # noinspection PyUnusedLocal
-    def _signal_handler(self, sig, stack_frame):
+    def _signal_handler(self, sig: int):
         if self.running:
             self.log.debug("Stopping bot by signal '{name} ({code})'. Repeat for force exit.".format(
                 name=signal_name_by_code(sig), code=sig
@@ -140,7 +151,7 @@ class Bot(object):
         while self.running:
             sleep(1)
 
-    def events_get(self, poll_time_s=None, last_event_id=None):
+    def events_get(self, poll_time_s: int = None, last_event_id: int = None):
         poll_time_s = self.poll_time_s if poll_time_s is None else poll_time_s
         last_event_id = self.last_event_id if last_event_id is None else last_event_id
 
@@ -168,7 +179,7 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
-    def send_text(self, chat_id, text, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
+    def send_text(self, chat_id: str, text: str, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
                   inline_keyboard_markup=None):
         return self.http_session.get(
             url="{}/messages/sendText".format(self.api_base_url),
@@ -179,7 +190,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
             },
             timeout=self.timeout_s
         )
@@ -197,7 +208,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
             }
         )
         if file:
@@ -218,7 +229,7 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
             }
         )
 
@@ -236,7 +247,7 @@ class Bot(object):
                 "chatId": chat_id,
                 "msgId": msg_id,
                 "text": text,
-                "inlineKeyboardMarkup": json.dumps(inline_keyboard_markup) if isinstance(inline_keyboard_markup, list) else inline_keyboard_markup
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
             },
             timeout=self.timeout_s
         )
