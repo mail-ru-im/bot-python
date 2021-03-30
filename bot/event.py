@@ -22,13 +22,17 @@ class Event(object):
         self.data = data
 
         if type_ == EventType.NEW_MESSAGE:
+            self.msgId = data.get('msgId')
             self.text = data.get('text')
             self.from_chat = data['chat']['chatId']
+            self.chat_type = data['chat']['type']
             self.message_author = data['from']
 
         elif type_ == EventType.CALLBACK_QUERY:
+            self.msgId = data['message'].get('msgId')
             self.callback_query = data['callbackData']
             self.from_chat = data['message']['chat']['chatId']
+            self.chat_type = data['message']['chat']['type']
             self.message_author = data['queryId'].split(':')[1]
         
     def __repr__(self):

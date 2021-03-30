@@ -57,8 +57,7 @@ class InlineKeyboardMarkup(Dictionaryable, JsonSerializable):
                 self.keyboard.append(row)
                 row = []
             i += 1
-        if len(row) > 0:
-            self.keyboard.append(row)
+        self.keyboard.append(row) if len(row) > 0 else None
 
     def row(self, *args):
         btn_array = []
