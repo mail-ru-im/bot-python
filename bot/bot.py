@@ -1,6 +1,6 @@
 import cgi
 import logging
-import os
+import sys
 import re
 from signal import signal, SIGINT, SIGTERM, SIGABRT
 from threading import Thread, Lock
@@ -15,19 +15,12 @@ from requests import Request
 from requests.adapters import HTTPAdapter
 
 from . import __version__ as version
-from .dispatcher import Dispatcher, StopDispatching
-from .event import Event, EventType
-from .filter import Filter
-from .handler import MessageHandler
+from .dispatcher import Dispatcher
+from .event import Event
+from .handler import *
 from .util import signal_name_by_code
 from .myteam import add_chat_members, create_chat
 from .types import InlineKeyboardMarkup
-
-try:
-    from urllib import parse as urlparse
-except ImportError:
-    # noinspection PyUnresolvedReferences
-    import urlparse
 
 
 def keyboard_to_json(keyboard_markup):
@@ -37,7 +30,6 @@ def keyboard_to_json(keyboard_markup):
         return json.dumps(keyboard_markup)
     else:
         return keyboard_markup
-
 
 
 class Bot(object):
@@ -63,7 +55,6 @@ class Bot(object):
 
         self.__lock = Lock()
         self.__polling_thread = None
-
         self.__sent_im_cache = ExpiringDict(max_len=2 ** 10, max_age_seconds=60)
         self.dispatcher.add_handler(SkipDuplicateMessageHandler(self.__sent_im_cache))
 
@@ -77,9 +68,13 @@ class Bot(object):
 
     @cached_property
     def user_agent(self):
+
         return "{name}/{version} (uin={uin}) bot-python/{library_version}".format(
-            name=self.name,
-            version=self.version,
+            name=self.name if self.name is not None else requests.get(url="{}/self/get".format(self.api_base_url),
+                                                                      params={"token": self.token}
+                                                                      ).json().get('nick'),
+            # name=self.name,
+            version=self.version if self.version is not None else 'base',
             uin="" if self.uin is None else self.uin,
             library_version=version
         )
@@ -142,7 +137,7 @@ class Bot(object):
             self.log.warning("Force exiting.")
             # It's fine here, this is standard way to force exit.
             # noinspection PyProtectedMember
-            os._exit(1)
+            sys.exit(1)
 
     def idle(self):
         for sig in (SIGINT, SIGTERM, SIGABRT):
@@ -178,6 +173,97 @@ class Bot(object):
             },
             timeout=self.timeout_s
         )
+
+    def default_handler(self):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=DefaultHandler(callback=handler))
+            return handler
+
+        return decorate
+
+    def new_member_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=NewChatMembersHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def member_left_chat_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=LeftChatMembersHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def pin_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=PinnedMessageHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def unpin_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=UnPinnedMessageHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def message_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=MessageHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def edit_msg_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=EditedMessageHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def delete_msg_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=DeletedMessageHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def command_handler(self, command=None, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=CommandHandler(callback=handler, command=command, filters=filters))
+            return handler
+
+        return decorate
+
+    def help_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=HelpCommandHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def start_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=StartCommandHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def unknown_cmd_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=UnknownCommandHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
+
+    def button_handler(self, filters=None):
+        def decorate(handler):
+            self.dispatcher.add_handler(handler=BotButtonCommandHandler(callback=handler, filters=filters))
+            return handler
+
+        return decorate
 
     def send_text(self, chat_id: str, text: str, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
                   inline_keyboard_markup=None):
