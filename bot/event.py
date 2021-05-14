@@ -24,6 +24,7 @@ class Event(object):
         if type_ == EventType.NEW_MESSAGE:
             self.msgId = data.get('msgId')
             self.text = data.get('text')
+            self.format = data.get('format')
             self.from_chat = data['chat']['chatId']
             self.chat_type = data['chat']['type']
             self.message_author = data['from']

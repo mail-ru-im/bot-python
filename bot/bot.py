@@ -20,7 +20,8 @@ from .event import Event
 from .handler import *
 from .util import signal_name_by_code
 from .myteam import add_chat_members, create_chat
-from .types import InlineKeyboardMarkup
+from .types import InlineKeyboardMarkup, Format
+from .constant import ParseMode
 
 
 def keyboard_to_json(keyboard_markup):
@@ -31,6 +32,13 @@ def keyboard_to_json(keyboard_markup):
     else:
         return keyboard_markup
 
+def format_to_json(format_):
+    if isinstance(format_, Format):
+        return format_.to_json()
+    elif isinstance(format_, list):
+        return json.dumps(format_)
+    else:
+        return format_
 
 class Bot(object):
     def __init__(self, token: str, api_url_base: str = None, name: str = None, version: str = None,
@@ -266,7 +274,11 @@ class Bot(object):
         return decorate
 
     def send_text(self, chat_id: str, text: str, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
-                  inline_keyboard_markup=None):
+                  inline_keyboard_markup=None, parse_mode=None, format_=None):
+        if parse_mode is not None and format_ is not None:
+            raise Exception("Cannot use format and parseMode fields at one time")
+        if parse_mode is not None:
+            ParseMode(parse_mode)
         return self.http_session.get(
             url="{}/messages/sendText".format(self.api_base_url),
             params={
@@ -276,13 +288,19 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup),
+                "parseMode": parse_mode,
+                "format": format_to_json(format_)
             },
             timeout=self.timeout_s
         )
 
     def send_file(self, chat_id, file_id=None, file=None, caption=None, reply_msg_id=None, forward_chat_id=None,
-                  forward_msg_id=None, inline_keyboard_markup=None):
+                  forward_msg_id=None, inline_keyboard_markup=None, parse_mode=None, format_=None):
+        if parse_mode is not None and format_ is not None:
+            raise Exception("Cannot use format and parseMode fields at one time")
+        if parse_mode is not None:
+            ParseMode(parse_mode)
         request = Request(
             method="GET",
             url="{}/messages/sendFile".format(self.api_base_url),
@@ -294,7 +312,9 @@ class Bot(object):
                 "replyMsgId": reply_msg_id,
                 "forwardChatId": forward_chat_id,
                 "forwardMsgId": forward_msg_id,
-                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup),
+                "parseMode": parse_mode,
+                "format": format_to_json(format_)
             }
         )
         if file:
@@ -325,7 +345,11 @@ class Bot(object):
 
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
-    def edit_text(self, chat_id, msg_id, text, inline_keyboard_markup=None):
+    def edit_text(self, chat_id, msg_id, text, inline_keyboard_markup=None, parse_mode=None, format_=None):
+        if parse_mode is not None and format_ is not None:
+            raise Exception("Cannot use format and parseMode fields at one time")
+        if parse_mode is not None:
+            ParseMode(parse_mode)
         return self.http_session.get(
             url="{}/messages/editText".format(self.api_base_url),
             params={
@@ -333,7 +357,9 @@ class Bot(object):
                 "chatId": chat_id,
                 "msgId": msg_id,
                 "text": text,
-                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup)
+                "inlineKeyboardMarkup": keyboard_to_json(inline_keyboard_markup),
+                "parseMode": parse_mode,
+                "format": format_to_json(format_)
             },
             timeout=self.timeout_s
         )

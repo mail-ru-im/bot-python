@@ -1,5 +1,6 @@
 import json
 
+from .constant import StyleType
 
 class JsonSerializable(object):
 
@@ -71,3 +72,44 @@ class InlineKeyboardMarkup(Dictionaryable, JsonSerializable):
 
     def to_dic(self):
         return self.keyboard
+
+class Style(Dictionaryable, JsonSerializable):
+
+    def __init__(self):
+        self.ranges = []
+
+    def add(self, offset, length, args=None):
+        range_ = { "offset": offset, "length": length }
+        if args is not None:
+            self.ranges.append({ **range_ , **args})
+        else:
+            self.ranges.append(range_)
+
+    def to_dic(self):
+        return self.ranges
+
+    def to_json(self):
+        return json.dumps(self.ranges)
+
+class Format(Dictionaryable, JsonSerializable):
+
+    def __init__(self):
+        self.styles = {}
+
+    def add(self, style, offset, length, args=None):
+        StyleType(style)
+        if style in self.styles.keys():
+            self.styles[style].add(offset, length, args)
+        else:
+            newStyle = Style()
+            newStyle.add(offset, length, args)
+            self.styles[style] = newStyle
+
+    def to_dic(self):
+        return self.styles
+
+    def to_json(self):
+        result = {}
+        for key in self.styles.keys():
+            result[key] = self.styles[key].to_dic()
+        return json.dumps(result)
