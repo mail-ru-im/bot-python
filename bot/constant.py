@@ -60,3 +60,21 @@ class ChatType(Enum):
     GROUP = "group"
     CHANNEL = "channel"
 
+@unique
+class ParseMode(Enum):
+    MARKDOWNV2 = "MarkdownV2"
+    HTML = "HTML"
+
+@unique
+class StyleType(Enum):
+    BOLD = "bold"
+    ITALIC = "italic"
+    UNDERLINE = "underline"
+    STRIKETHROUGH = "strikethrough"
+    LINK = "link"
+    MENTION = "mention"
+    INLINE_CODE = "inline_code"
+    PRE = "pre"
+    ORDERED_LIST = "ordered_list"
+    UNORDERED_LIST = "unordered_list"
+    QUOTE = "quote"
