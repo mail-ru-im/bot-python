@@ -275,9 +275,9 @@ class Bot(object):
 
     def send_text(self, chat_id: str, text: str, reply_msg_id=None, forward_chat_id=None, forward_msg_id=None,
                   inline_keyboard_markup=None, parse_mode=None, format_=None):
-        if parse_mode is not None and format_ is not None:
+        if parse_mode and format_:
             raise Exception("Cannot use format and parseMode fields at one time")
-        if parse_mode is not None:
+        if parse_mode:
             ParseMode(parse_mode)
         return self.http_session.get(
             url="{}/messages/sendText".format(self.api_base_url),
@@ -297,9 +297,9 @@ class Bot(object):
 
     def send_file(self, chat_id, file_id=None, file=None, caption=None, reply_msg_id=None, forward_chat_id=None,
                   forward_msg_id=None, inline_keyboard_markup=None, parse_mode=None, format_=None):
-        if parse_mode is not None and format_ is not None:
+        if parse_mode and format_:
             raise Exception("Cannot use format and parseMode fields at one time")
-        if parse_mode is not None:
+        if parse_mode:
             ParseMode(parse_mode)
         request = Request(
             method="GET",
@@ -346,9 +346,9 @@ class Bot(object):
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
     def edit_text(self, chat_id, msg_id, text, inline_keyboard_markup=None, parse_mode=None, format_=None):
-        if parse_mode is not None and format_ is not None:
+        if parse_mode and format_:
             raise Exception("Cannot use format and parseMode fields at one time")
-        if parse_mode is not None:
+        if parse_mode:
             ParseMode(parse_mode)
         return self.http_session.get(
             url="{}/messages/editText".format(self.api_base_url),
