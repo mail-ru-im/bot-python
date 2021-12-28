@@ -1,6 +1,7 @@
 import io
 import json
 import logging.config
+from os import path
 from time import sleep
 import sys
 from bot.bot import Bot
@@ -12,7 +13,8 @@ from bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandle
 if sys.version_info[0] == 3:
     from gtts import gTTS
 
-logging.config.fileConfig("logging.ini")
+log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.ini')
+logging.config.fileConfig(log_file_path)
 log = logging.getLogger(__name__)
 
 NAME = ""
