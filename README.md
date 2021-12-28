@@ -12,7 +12,7 @@ Pure Python interface for Bot API.
 
 # Introduction
 
-This library provides complete Bot API 1.0 interface and compatible with Python 2.7, 3.4, 3.5 and 3.6.
+This library provides complete Bot API 1.0 interface and compatible with Python 2.7, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10.
 
 # Getting started
 
