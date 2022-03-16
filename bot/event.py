@@ -27,7 +27,7 @@ class Event(object):
             self.format = data.get('format')
             self.from_chat = data['chat']['chatId']
             self.chat_type = data['chat']['type']
-            self.message_author = data['from']
+            self.message_author = data.get('from', {})
 
         elif type_ == EventType.CALLBACK_QUERY:
             self.msgId = data['message'].get('msgId')
