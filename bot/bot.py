@@ -295,7 +295,7 @@ class Bot(object):
             timeout=self.timeout_s
         )
 
-    def send_file(self, chat_id, file_id=None, file=None, caption=None, reply_msg_id=None, forward_chat_id=None,
+    def send_file(self, chat_id, file_id=None, file=None, file_name, caption=None, reply_msg_id=None, forward_chat_id=None,
                   forward_msg_id=None, inline_keyboard_markup=None, parse_mode=None, format_=None):
         if parse_mode and format_:
             raise Exception("Cannot use format and parseMode fields at one time")
@@ -319,7 +319,13 @@ class Bot(object):
         )
         if file:
             request.method = "POST"
-            request.files = {"file": file}
+            data = None
+            if file_name:
+                data = FormData()
+                data.add_field('file', file, filename=file_name)
+                request.files = data
+            else:
+                request.files = {'file', file}
 
         return self.http_session.send(request.prepare(), timeout=self.timeout_s)
 
