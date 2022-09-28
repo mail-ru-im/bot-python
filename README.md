@@ -34,7 +34,7 @@ pip install --upgrade mailru-im-bot
 
 Install from sources:
 ```bash
-git clone https://github.com/mail-ru-im/bot-python.git
+git clone https://github.com/Lunatik-cyber/bot-python.git
 cd bot-python
 python setup.py install
 ```
