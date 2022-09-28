@@ -319,10 +319,9 @@ class Bot(object):
         )
         if file:
             request.method = "POST"
-            data = None
+            data = dict()
             if file_name:
-                data = FormData()
-                data.add_field('file', file, filename=file_name)
+                data["file"] = (file_name, file)
                 request.files = data
             else:
                 request.files = {'file', file}
