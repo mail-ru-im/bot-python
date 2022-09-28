@@ -35,7 +35,7 @@ pip install --upgrade mailru-im-bot
 Install from sources:
 ```bash
 git clone https://github.com/Lunatik-cyber/bot-python-icq.git
-cd bot-python
+cd bot-python-icq
 python setup.py install
 ```
 
