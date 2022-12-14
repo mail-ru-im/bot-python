@@ -19,7 +19,7 @@ def requirements():
 
 
 setup(
-    name="mailru-im-bot",
+    name="mailru-im-bot-updated",
     version=bot.__version__,
     description="Pure Python interface for Bot API. Bot cookbook for Humans.",
     long_description=long_description(),

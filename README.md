@@ -29,7 +29,7 @@ This library provides complete Bot API 1.0 interface and compatible with Python 
 # Installing
 Install using pip:
 ```bash
-pip install --upgrade mailru-im-bot
+pip install --upgrade mailru-im-bot-updated
 ```
 
 Install from sources:
