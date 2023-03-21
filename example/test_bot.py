@@ -4,9 +4,9 @@ import logging.config
 from os import path
 from time import sleep
 import sys
-from bot.bot import Bot
-from bot.filter import Filter
-from bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandler, FeedbackCommandHandler, \
+from icq_bot.bot import Bot
+from icq_bot.filter import Filter
+from icq_bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandler, FeedbackCommandHandler, \
     CommandHandler, NewChatMembersHandler, LeftChatMembersHandler, PinnedMessageHandler, UnPinnedMessageHandler, \
     EditedMessageHandler, DeletedMessageHandler, StartCommandHandler, BotButtonCommandHandler
 
@@ -88,7 +88,7 @@ def deleted_message_cb(bot, event):
 
 
 def message_with_bot_mention_cb(bot, event):
-    bot.send_text(chat_id=event.data['chat']['chatId'], text="Message with bot mention was received")
+    bot.send_text(chat_id=event.data['chat']['chatId'], text="Message with icq_bot mention was received")
 
 
 def mention_cb(bot, event):
@@ -198,7 +198,7 @@ def buttons_answer_cb(bot, event):
 
 
 def main():
-    # Creating a new bot instance.
+    # Creating a new icq_bot instance.
     bot = Bot(token=TOKEN, name=NAME, version=VERSION, api_url_base=API_URL)
 
     # Registering handlers #
@@ -243,7 +243,7 @@ def main():
     # Handler for deleted message
     bot.dispatcher.add_handler(DeletedMessageHandler(callback=deleted_message_cb))
 
-    # Handler for message with bot mention
+    # Handler for message with icq_bot mention
     bot.dispatcher.add_handler(MessageHandler(
         filters=Filter.message & Filter.mention(user_id=bot.uin),
         callback=message_with_bot_mention_cb
@@ -295,9 +295,9 @@ def main():
     # ---------------------------------------------------------------------------------------- #
     bot.start_polling()
 
-    # Call bot methods
+    # Call icq_bot methods
     # -------------- #
-    # Get info about bot
+    # Get info about icq_bot
     bot.self_get()
 
     # Send message
@@ -389,7 +389,7 @@ def main():
     # Set chat title
     bot.set_chat_rules(chat_id=TEST_CHAT, rules="TEST RULES")
 
-    # Send bot buttons
+    # Send icq_bot buttons
     bot.send_text(chat_id=OWNER,
                   text="Hello with buttons.",
                   inline_keyboard_markup="[{}]".format(json.dumps([
@@ -398,7 +398,7 @@ def main():
                       {"text": "Action 3", "callbackData": "call_back_id_3"}
                   ])))
 
-    # Handler for bot buttons reply.
+    # Handler for icq_bot buttons reply.
     bot.dispatcher.add_handler(BotButtonCommandHandler(callback=buttons_answer_cb))
 
     bot.idle()

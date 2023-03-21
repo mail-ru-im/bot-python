@@ -3,7 +3,7 @@ from os import path
 
 from setuptools import setup, find_packages
 
-import bot
+import icq_bot
 
 here = path.abspath(path.dirname(__file__))
 
@@ -20,11 +20,11 @@ def requirements():
 
 setup(
     name="mailru-im-bot-updated",
-    version=bot.__version__,
+    version=icq_bot.__version__,
     description="Pure Python interface for Bot API. Bot cookbook for Humans.",
     long_description=long_description(),
     long_description_content_type="text/markdown",
-    url="https://github.com/mail-ru-im/bot-python",
+    url="https://github.com/Lunatik-cyber/bot-python-icq",
     author="ICQ LLC (Mail.Ru Group)",
     author_email="support@icq.com",
     license="MIT",
@@ -45,7 +45,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent"
     ],
-    keywords="mailru im bot api",
+    keywords="mailru im icq_bot api",
     packages=find_packages(exclude=["example"]),
     install_requires=requirements(),
     python_requires=">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*",

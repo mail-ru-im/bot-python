@@ -1,7 +1,7 @@
-from bot.bot import Bot
-from bot.handler import MessageHandler
-from bot.constant import ParseMode
-from bot.types import Format
+from icq_bot.bot import Bot
+from icq_bot.handler import MessageHandler
+from icq_bot.constant import ParseMode
+from icq_bot.types import Format
 
 import logging.config
 

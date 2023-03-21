@@ -1,6 +1,6 @@
 import schedule
 import time
-from bot.bot import Bot
+from icq_bot.bot import Bot
 
 TOKEN = "" #your toke here
 bot = Bot(token=TOKEN)

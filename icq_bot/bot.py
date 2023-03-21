@@ -32,6 +32,7 @@ def keyboard_to_json(keyboard_markup):
     else:
         return keyboard_markup
 
+
 def format_to_json(format_):
     if isinstance(format_, Format):
         return format_.to_json()
@@ -39,6 +40,7 @@ def format_to_json(format_):
         return json.dumps(format_)
     else:
         return format_
+
 
 class Bot(object):
     def __init__(self, token: str, api_url_base: str = None, name: str = None, version: str = None,
@@ -293,9 +295,10 @@ class Bot(object):
                 "format": format_to_json(format_)
             },
             timeout=self.timeout_s
-        )
+        ).json()
 
-    def send_file(self, chat_id, file_id=None, file=None, file_name=None, caption=None, reply_msg_id=None, forward_chat_id=None,
+    def send_file(self, chat_id, file_id=None, file=None, file_name=None, caption=None, reply_msg_id=None,
+                  forward_chat_id=None,
                   forward_msg_id=None, inline_keyboard_markup=None, parse_mode=None, format_=None):
         if parse_mode and format_:
             raise Exception("Cannot use format and parseMode fields at one time")
@@ -319,14 +322,12 @@ class Bot(object):
         )
         if file:
             request.method = "POST"
-            data = dict()
             if file_name:
-                data["file"] = (file_name, file)
-                request.files = data
+                request.files = {"file": (file_name, file)}
             else:
-                request.files = {'file', file}
+                request.files = {"file": file}
 
-        return self.http_session.send(request.prepare(), timeout=self.timeout_s)
+        return self.http_session.send(request.prepare(), timeout=self.timeout_s).json()
 
     def send_voice(self, chat_id, file_id=None, file=None, reply_msg_id=None, forward_chat_id=None,
                    forward_msg_id=None, inline_keyboard_markup=None):
@@ -348,7 +349,7 @@ class Bot(object):
             request.method = "POST"
             request.files = {"file": file}
 
-        return self.http_session.send(request.prepare(), timeout=self.timeout_s)
+        return self.http_session.send(request.prepare(), timeout=self.timeout_s).json()
 
     def edit_text(self, chat_id, msg_id, text, inline_keyboard_markup=None, parse_mode=None, format_=None):
         if parse_mode and format_:
@@ -367,7 +368,7 @@ class Bot(object):
                 "format": format_to_json(format_)
             },
             timeout=self.timeout_s
-        )
+        ).json()
 
     def delete_messages(self, chat_id, msg_id):
         return self.http_session.get(
@@ -390,7 +391,7 @@ class Bot(object):
                 "showAlert": 'true' if show_alert else 'false',
                 "url": url
             }
-        )
+        ).json()
 
     def send_actions(self, chat_id, actions):
         return self.http_session.get(

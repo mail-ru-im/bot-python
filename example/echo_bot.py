@@ -1,5 +1,5 @@
-from bot.bot import Bot
-from bot.handler import MessageHandler
+from icq_bot.bot import Bot
+from icq_bot.handler import MessageHandler
 
 TOKEN = "" #your token here
 
