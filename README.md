@@ -29,15 +29,32 @@ This library provides complete Bot API 1.0 interface and compatible with Python 
 # Installing
 Install using pip:
 ```bash
-pip install --upgrade mailru-im-bot
+pip install --upgrade mailru-im-bot-updated
 ```
 
 Install from sources:
 ```bash
-git clone https://github.com/mail-ru-im/bot-python.git
-cd bot-python
+git clone https://github.com/Lunatik-cyber/bot-python-icq.git
+cd icq_bot-python-icq
 python setup.py install
 ```
+
+# New features
+* Added ***file_name*** argument to **send_file** function. Now you can send files with custom names.
+* Now you can receive sent data in ***send_text, send_file, send_voice, edit_text functions,
+answer_callback_query***.
+
+### Example file_name argument
+```python
+bot.send_file(chat_id=chat_id, file_name="test.txt", file=open("test.txt", "rb"))
+```
+
+### Example sent data
+```python
+msg = bot.send_text(chat_id=chat_id, text="test")
+bot.edit_text(chat_id=chat_id, msg_id=msg["msgId"], text="test2")
+```
+
 
 # API description
 <ul>
