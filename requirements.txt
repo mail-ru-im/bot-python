@@ -3,7 +3,7 @@ enum34 == 1.1.6; python_version < "3.4"
 expiringdict == 1.2.1
 monotonic ==1.6
 python-baseconv == 1.2.2
-requests ==2.26.0
+requests ==2.31.0
 six ==1.16.0
 gTTS ==2.2.3
 urllib3 ==1.26.7
