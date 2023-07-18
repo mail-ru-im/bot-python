@@ -135,7 +135,8 @@ class Bot(object):
                 self.__polling_thread.join()
 
     # noinspection PyUnusedLocal
-    def _signal_handler(self, sig: int):
+    def _signal_handler(self, sig: int, stack_frame = None):
+        # Bypass stack_frame due to signal handler requires 2 arguments
         if self.running:
             self.log.debug("Stopping bot by signal '{name} ({code})'. Repeat for force exit.".format(
                 name=signal_name_by_code(sig), code=sig
