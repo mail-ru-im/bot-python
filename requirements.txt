@@ -7,4 +7,4 @@ requests ==2.26.0
 six ==1.16.0
 gTTS ==2.2.3
 urllib3 ==1.26.7
-click ==8.0.3
+click >=8.0.3
