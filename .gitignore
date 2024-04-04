@@ -4,8 +4,10 @@
 # Compiled, optimized or cached files.
 .cache/
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *$py.class
+build/
 
 # Bot example log.
 /example/log/
