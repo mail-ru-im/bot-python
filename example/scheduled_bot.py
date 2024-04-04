@@ -2,7 +2,7 @@ import schedule
 import time
 from bot.bot import Bot
 
-TOKEN = "" #your toke here
+TOKEN = ""  # your toke here
 bot = Bot(token=TOKEN)
 
 chats_to_send_notifications = [

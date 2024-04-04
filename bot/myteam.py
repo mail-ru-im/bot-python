@@ -1,5 +1,5 @@
 import json
-from requests import Request
+
 
 def add_chat_members(self, chat_id, members):
     return self.http_session.get(
@@ -10,6 +10,7 @@ def add_chat_members(self, chat_id, members):
             "members": json.dumps([{"sn": m} for m in members])
         }
     )
+
 
 def create_chat(self, name, about="", rules="", members=[], public=False, join_moderation=False, default_role="member"):
     return self.http_session.get(

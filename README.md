@@ -1,32 +1,21 @@
-<img src="https://github.com/mail-ru-im/bot-python/blob/master/logo.png" width="100" height="100">
+<img src="logo_bot.png" width="100" height="100">
 
-# 🐍 bot-python
+# VK Teams Bot API for Python
+[![Python package](https://github.com/mail-ru-im/bot-python/actions/workflows/python-package.yml/badge.svg)](https://github.com/mail-ru-im/bot-python/actions/workflows/python-package.yml)
+[![codecov](https://codecov.io/github/mail-ru-im/bot-python/graph/badge.svg?token=ObUFRWSyGv)](https://codecov.io/github/mail-ru-im/bot-python)
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/mail-ru-im/bot-golang)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Pure Python interface for Bot API.
+### [<img src="logo_msg.png" width="16"> VK Teams API Specification](https://teams.vk.com/botapi/)
 
-# Table of contents
-- [Introduction](#introduction)
-- [Getting started](#getting-started)
-- [Installing](#installing)
-- [API description](#api-description)
+## Getting started
 
-# Introduction
-
-This library provides complete Bot API 1.0 interface and compatible with Python 2.7, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10.
-
-# Getting started
-
-* Create your own bot by sending the /newbot command to <a href="https://icq.com/people/70001">Metabot</a> and follow the instructions.
+* Create your own bot by sending the _/newbot_ command to _Metabot_ and follow the instructions.
     >Note: a bot can only reply after the user has added it to his contact list, or if the user was the first to start a dialogue.
-* You can configure the domain that hosts your ICQ server. When instantiating the Bot class, add the address of your domain.
-    > Example: Bot(token=TOKEN, name=NAME, version=VERSION, api_url_base="https://api.icq.net/bot/v1"), by default we use the domain: https://api.icq.net/bot/v1
-* If you are Myteam client, you can add flag "is_myteam=True", when instantiating the Bot class. This will let you use additional chat methods.
-    > Example: Bot(token=TOKEN, name=NAME, is_myteam=True), by default it is False.
+* You can configure the domain that hosts your VK Teams server. When instantiating the Bot class, add the address of your domain.
+* An example of how to use the framework can be seen in _example/test_bot.py_
 
-
-> An example of how to use the framework can be seen in example/test_bot.py 
-
-# Installing
+## Installing
 Install using pip:
 ```bash
 pip install --upgrade mailru-im-bot
@@ -38,9 +27,3 @@ git clone https://github.com/mail-ru-im/bot-python.git
 cd bot-python
 python setup.py install
 ```
-
-# API description
-<ul>
-    <li><a href="https://icq.com/botapi/">icq.com/botapi/</a></li>
-    <li><a href="https://agent.mail.ru/botapi/">agent.mail.ru/botapi/</a></li>
-</ul>

@@ -1,15 +1,15 @@
 from bot.bot import Bot
 from bot.handler import MessageHandler
-from bot.constant import ParseMode
 from bot.types import Format
 
 import logging.config
 
 logging.config.fileConfig("logging.ini")
 
-TOKEN = "" #your token here
+TOKEN = ""  # your token here
 
 bot = Bot(token=TOKEN, api_url_base="")
+
 
 def message_cb(bot, event):
     bot.send_text(chat_id=event.from_chat, text="*_Hello_*", parse_mode="MarkdownV2")

@@ -10,6 +10,7 @@ from bot.handler import HelpCommandHandler, UnknownCommandHandler, MessageHandle
     CommandHandler, NewChatMembersHandler, LeftChatMembersHandler, PinnedMessageHandler, UnPinnedMessageHandler, \
     EditedMessageHandler, DeletedMessageHandler, StartCommandHandler, BotButtonCommandHandler
 
+
 if sys.version_info[0] == 3:
     from gtts import gTTS
 
@@ -23,7 +24,7 @@ TOKEN = "XXX.XXXXXXXXXX.XXXXXXXXXX:XXXXXXXXX"
 OWNER = "XXXXXXXXX"
 TEST_CHAT = "XXXXX"
 TEST_USER = "XXXXX"
-API_URL = "https://api.icq.net/bot/v1"
+API_URL = "http://localhost:8080"
 
 
 def start_cb(bot, event):
@@ -259,7 +260,7 @@ def main():
     bot.dispatcher.add_handler(MessageHandler(filters=Filter.text, callback=message_cb))
 
     # Handler with regexp filter
-    bot.dispatcher.add_handler(MessageHandler(filters=Filter.regexp("^\d*$"), callback=regexp_only_dig_cb))
+    bot.dispatcher.add_handler(MessageHandler(filters=Filter.regexp("^\\d*$"), callback=regexp_only_dig_cb))
 
     # Handler for no media file. For example, text file
     bot.dispatcher.add_handler(MessageHandler(filters=Filter.data, callback=file_cb))
