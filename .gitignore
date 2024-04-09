@@ -8,6 +8,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 build/
+.coverage
 
 # Bot example log.
 /example/log/
@@ -26,3 +27,6 @@ build/
 # Windows useless files.
 Thumbs.db
 desktop.ini
+
+# logs
+log/
