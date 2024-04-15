@@ -60,10 +60,12 @@ class ChatType(Enum):
     GROUP = "group"
     CHANNEL = "channel"
 
+
 @unique
 class ParseMode(Enum):
     MARKDOWNV2 = "MarkdownV2"
     HTML = "HTML"
+
 
 @unique
 class StyleType(Enum):

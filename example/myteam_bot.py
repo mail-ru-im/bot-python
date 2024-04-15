@@ -5,7 +5,7 @@ import logging.config
 
 logging.config.fileConfig("logging.ini")
 
-TOKEN = "" #your token here
+TOKEN = ""  # your token here
 
 bot = Bot(token=TOKEN, api_url_base="", is_myteam=True)
 
@@ -17,7 +17,7 @@ def message_cb(bot, event):
     bot.add_chat_members(chat_id=resp.json()['sn'], members=["user1@myteam.ru", "user2@myteam.ru", "user3@myteam.ru"])
     bot.send_text(chat_id=resp.json()['sn'], text="Hello! And Goodbye!")
     bot.delete_chat_members(chat_id=resp.json()['sn'], members=["user2@myteam.ru", "user3@myteam.ru"])
-    bot.send_text(chat_id=event.from_chat, text="Bye!")    
+    bot.send_text(chat_id=event.from_chat, text="Bye!")
 
 
 bot.dispatcher.add_handler(MessageHandler(callback=message_cb))

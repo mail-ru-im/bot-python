@@ -4,8 +4,11 @@
 # Compiled, optimized or cached files.
 .cache/
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *$py.class
+build/
+.coverage
 
 # Bot example log.
 /example/log/
@@ -24,3 +27,6 @@ __pycache__/
 # Windows useless files.
 Thumbs.db
 desktop.ini
+
+# logs
+log/

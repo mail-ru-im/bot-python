@@ -1,7 +1,7 @@
 from bot.bot import Bot
 from bot.handler import MessageHandler
 
-TOKEN = "" #your token here
+TOKEN = ""  # your token here
 
 bot = Bot(token=TOKEN)
 

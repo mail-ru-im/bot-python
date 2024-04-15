@@ -220,4 +220,3 @@ class Filter(object):
     sender = SenderFilter
     callback_data = CallbackDataFilter
     callback_data_regexp = CallbackDataRegexpFilter
-

@@ -17,7 +17,14 @@ from requests.adapters import HTTPAdapter
 from . import __version__ as version
 from .dispatcher import Dispatcher
 from .event import Event
-from .handler import *
+from .handler import EventType, DefaultHandler, \
+    NewChatMembersHandler, LeftChatMembersHandler, \
+    PinnedMessageHandler, MessageHandler, \
+    EditedMessageHandler, DeletedMessageHandler, \
+    CommandHandler, HelpCommandHandler, \
+    StartCommandHandler, UnknownCommandHandler, \
+    BotButtonCommandHandler, UnPinnedMessageHandler, \
+    Filter, StopDispatching
 from .util import signal_name_by_code
 from .myteam import add_chat_members, create_chat
 from .types import InlineKeyboardMarkup, Format
@@ -32,6 +39,7 @@ def keyboard_to_json(keyboard_markup):
     else:
         return keyboard_markup
 
+
 def format_to_json(format_):
     if isinstance(format_, Format):
         return format_.to_json()
@@ -39,6 +47,7 @@ def format_to_json(format_):
         return json.dumps(format_)
     else:
         return format_
+
 
 class Bot(object):
     def __init__(self, token: str, api_url_base: str = None, name: str = None, version: str = None,
@@ -107,8 +116,10 @@ class Bot(object):
                     if "description" in response.json() and response.json()["description"] == 'Invalid token':
                         raise InvalidToken(response.json())
 
-                for event in response.json()["events"]:
-                    self.dispatcher.dispatch(Event(type_=EventType(event["type"]), data=event["payload"]))
+                if "events" in response.json():
+                    for event in response.json()["events"]:
+                        self.dispatcher.dispatch(Event(type_=EventType(event["type"]), data=event["payload"]))
+
             except InvalidToken as e:
                 self.log.exception("InvalidToken: {e}".format(e=e))
                 sleep(5)
