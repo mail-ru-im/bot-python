@@ -570,6 +570,48 @@ class Bot(object):
                 "members": json.dumps([{"sn": m} for m in members])
             }
         )
+    
+    def threads_get_subscribers(self, thread_id, page_size=None, cursor=None):
+        if page_size is None and cursor is None:
+            raise Exception("pageSize or cursor must be provided")
+        params={
+            "token": self.token,
+            "threadId": thread_id,
+        }
+        if page_size:
+            params["pageSize"]=page_size
+        if cursor:
+            params["cursor"]=cursor
+
+        return self.http_session.get(
+            url="{}/threads/subscribers/get".format(self.api_base_url),
+            params=params
+        )
+    
+    def threads_autosubscribe(self, chat_id, enable, with_existing="false"):
+        if isinstance(enable, bool):
+            enable = "true" if enable else "false"
+        if isinstance(with_existing, bool):
+            with_existing = "true" if with_existing else "false"
+        return self.http_session.get(
+            url="{}/threads/autosubscribe".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "enable": enable,
+                "withExisting": with_existing
+            }
+        )
+    
+    def threads_add(self, chat_id, msg_id):
+        return self.http_session.get(
+            url="{}/threads/add".format(self.api_base_url),
+            params={
+                "token": self.token,
+                "chatId": chat_id,
+                "msgId": msg_id
+            }
+        )
 
 
 class LoggingHTTPAdapter(HTTPAdapter):
