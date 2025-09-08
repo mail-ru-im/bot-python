@@ -1,5 +1,7 @@
 <img src="logo_bot.png" width="100" height="100">
 
+> This repo is a fork of original [mailru-im-bot](https://github.com/mail-ru-im/bot-python). 
+
 # VK Teams Bot API for Python
 [![Python package](https://github.com/mail-ru-im/bot-python/actions/workflows/python-package.yml/badge.svg)](https://github.com/mail-ru-im/bot-python/actions/workflows/python-package.yml)
 [![codecov](https://codecov.io/github/mail-ru-im/bot-python/graph/badge.svg?token=ObUFRWSyGv)](https://codecov.io/github/mail-ru-im/bot-python)

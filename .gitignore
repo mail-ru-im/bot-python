@@ -16,10 +16,11 @@ build/
 # Mystic etc.
 /etc/
 
-# IntelliJ IDEA.
+# IntelliJ IDEA. / VSCode
 /.idea/
 /out/
 *.iml
+.vscode/
 
 # Mac OS useless files.
 .DS_Store
@@ -30,3 +31,9 @@ desktop.ini
 
 # logs
 log/
+
+# Env
+.env
+
+# Dev mode
+mailru_im_bot.egg-info
