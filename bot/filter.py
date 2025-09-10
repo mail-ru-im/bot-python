@@ -75,7 +75,9 @@ class InvertFilter(FilterBase):
 
 class MessageFilter(FilterBase):
     def filter(self, event):
-        return "text" in event.data and isinstance(event.data["text"], six.string_types)
+        return ("text" in event.data and isinstance(event.data["text"], six.string_types)) or (
+            "parts" in event.data and any(p.get("payload", {}).get("caption") for p in event.data["parts"])
+        )
 
 
 class CommandFilter(MessageFilter):

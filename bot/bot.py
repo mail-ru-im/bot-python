@@ -686,7 +686,7 @@ class SkipDuplicateMessageHandler(MessageHandler):
 
     def check(self, event, dispatcher):
         if super(SkipDuplicateMessageHandler, self).check(event=event, dispatcher=dispatcher):
-            if self.cache.get(event.data["msgId"]) == event.data["text"]:
+            if self.cache.get(event.data["msgId"]) == event.data.get("text", False):
                 raise StopDispatching
 
 
