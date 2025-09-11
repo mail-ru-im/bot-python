@@ -1,12 +1,12 @@
 # Contribute
 ## Pull request
 Если вы решили впервые стать контрибьютером и помочь развитию open-source проекта, этот пункт для вас.
-1) Делается fork основного репозитория
-2) git clone https://github.com/ваш-логин/bot-golang.git
-3) Локальное изменение
+1) Делается [fork](https://github.com/mail-ru-im/bot-python/fork) основного репозитория
+2) `git clone https://github.com/<ваш-логин>/bot-python.git`
+3) Вносим локальное изменение
 4) Сделайте ребейз на remote master ветку
 5) git push origin <ваш-логин>
-6) В удаленном репозитории нажать _compare&pull request_
+6) В удаленном репозитории нажать _"compare & pull request"_
 
 Также рекомендуем ознакомиться с подробной инструкцией для контрибьютеров - <a href="https://github.com/firstcontributions/first-contributions">README.md</a>
 
